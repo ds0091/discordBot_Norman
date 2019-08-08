@@ -152,4 +152,4 @@ async def luck_today(ctx):
 
 if __name__ == "__main__":
     bot.load_extension('Features.Meals')
-    bot.run('NTkxNTYzMzA0MDQ5MzExNzc0.XQy40A.FlLoGC0XUsBL2C0kBU3qvwgQ9DA')
+    bot.run('NTkxNTYzMzA0MDQ5MzExNzc0.XUx7ig.8DjJ-TAXs8e3L1wQJe6v8U5Jxvg')
