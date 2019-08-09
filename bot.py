@@ -74,7 +74,7 @@ async def when(ctx):
 async def weather(ctx, loc: str):
     weatherInfo = wx.get_weather(loc)
     if (weatherInfo == None):
-        await ctx.send('找不到該縣市啦')
+        await ctx.send('你是住哪找不到啦')
     else:
         warningStr = ''
         weatherNow = weatherInfo['weather'][0]
