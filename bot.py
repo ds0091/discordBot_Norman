@@ -59,9 +59,11 @@ async def get_error_log(ctx, com: str):
 
 
 
-@bot.command(name='測試')
+@bot.command(name='測試', pass_context=True)
 async def test(ctx):
-    await ctx.send('<:3_:569162222819999744>')
+    fig = discord.File('Fig/Norman_1.JPG', filename='Norman_1.JPG')
+    await ctx.send(file=fig)
+    # await ctx.send('<:3_:569162222819999744>')
     
 
 @bot.command(name='加入', pass_context=True)
@@ -74,7 +76,7 @@ async def when(ctx):
 async def weather(ctx, loc: str):
     weatherInfo = wx.get_weather(loc)
     if (weatherInfo == None):
-        await ctx.send('你是住哪找不到啦')
+        await ctx.send('你是住哪 找不到啦')
     else:
         warningStr = ''
         weatherNow = weatherInfo['weather'][0]
@@ -109,9 +111,9 @@ async def giveaway_start(ctx, permission: str, keyword: str):
             set_limit.set_keyword(keyword)
             set_limit.set_permission(permission)
             set_limit.set_channel(ctx.message.channel)
-            await ctx.send('抽獎開始! 輸入關鍵字「{}」進行抽獎'.format(keyword))
+            await ctx.send('抽獎開始! 輸入關鍵字「{}」參加抽獎'.format(keyword))
         except commands.ExtensionAlreadyLoaded:
-            await ctx.send('抽獎已經開始啦')
+            await ctx.send('上一次抽獎還沒結束呢')
         
 
 @commands.has_any_role('諾曼大帝', '有劍94屌')
@@ -121,7 +123,7 @@ async def giveaway_end(ctx):
         bot.unload_extension('Features.Giveaway')
         await ctx.send('抽獎結束囉，感謝大家參與')
     except commands.ExtensionNotLoaded:
-        await ctx.send('【抽獎尚未開始】')
+        await ctx.send('抽獎都還沒開始啊')
 
 
 @commands.has_any_role('諾曼大帝', '有劍94屌')
@@ -131,7 +133,7 @@ async def vote_start(ctx, permission: str, keyword: str):
         bot.load_extension('Features.Vote')
         await ctx.send('抽獎開始! 輸入關鍵字「{}」進行抽獎'.format(keyword))
     except commands.ExtensionAlreadyLoaded:
-        await ctx.send('抽獎已經開始啦')
+        await ctx.send('投票已經開始啦')
 
 
 todayAsked = ['']
@@ -154,13 +156,14 @@ async def luck_today(ctx):
             luckStr = '普通'
         else:
             luckStr = '不好說'
-        await ctx.send('今日運勢：{}'.format(luckStr))
+        await ctx.send('本日運勢：{}'.format(luckStr))
     else:
-        await ctx.send('你今天已經問過囉')
+        await ctx.send('你今天已經問過囉，接受命運吧')
 
 
 
 
 if __name__ == "__main__":
     bot.load_extension('Features.Meals')
-    bot.run('NTkxNTYzMzA0MDQ5MzExNzc0.XUyCRQ.wU9WwiUaiQuW648G6ASTLnjr08w')
+    bot.run('NjA5MTEwNDY3MTcxODQ0MTU5.XU2oqA.VwCIqPRqpUQLxCnInxlYezowTeM')
+    # NTkxNTYzMzA0MDQ5MzExNzc0.XUyCRQ.wU9WwiUaiQuW648G6ASTLnjr08w

@@ -36,13 +36,13 @@ class giveaway(commands.Cog):
     async def on_message(self, msg):
         if(msg.author != self.bot.user):
             if (self.is_terminate and self.keyword in msg.content):
-                await msg.channel.send('抽獎報名已經截止囉，下次請早')
+                await msg.channel.send('你來晚了，抽獎報名已經截止囉')
             elif ((self.in_channel == msg.channel) and (self.keyword in msg.content) and self.check_permission(msg.author.roles)):
                 if (msg.author.id not in self.drawList):
                     self.drawList.append(msg.author.id)
                     await msg.channel.send('<@!{}> 已加入抽獎名單中'.format(msg.author.id))
                 else:
-                    await msg.channel.send('<@!{}> 你已經在名單裡面了'.format(msg.author.id))
+                    await msg.channel.send('<@!{}> 你已經在名單內，別再刷了'.format(msg.author.id))
 
 
     @commands.has_any_role('諾曼大帝', '有劍94屌')    
@@ -62,9 +62,9 @@ class giveaway(commands.Cog):
                 self.giveawayCnt+=1
                 await ctx.send('恭喜歐洲人{}號：<@!{}> 中獎啦'.format(self.giveawayCnt, winner))
             else:
-                await ctx.send('【抽獎名單已空】')
+                await ctx.send('已經沒有人可以抽了')
         else:
-            await ctx.send('報名還沒截止，先別急著抽啦')
+            await ctx.send('報名還沒截止，先別急著抽啊')
             
 
 
