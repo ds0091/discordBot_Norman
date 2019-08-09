@@ -73,7 +73,7 @@ async def when(ctx):
 @bot.command(name='天氣', pass_context=True)
 async def weather(ctx, loc: str):
     weatherInfo = wx.get_weather(loc)
-    if (weather == None):
+    if (weatherInfo == None):
         await ctx.send('找不到該縣市啦')
     else:
         warningStr = ''
@@ -122,6 +122,16 @@ async def giveaway_end(ctx):
         await ctx.send('抽獎結束囉，感謝大家參與')
     except commands.ExtensionNotLoaded:
         await ctx.send('【抽獎尚未開始】')
+
+
+@commands.has_any_role('諾曼大帝', '有劍94屌')
+@bot.command(name='vote', pass_context=True)
+async def vote_start(ctx, permission: str, keyword: str):
+    try:
+        bot.load_extension('Features.Vote')
+        await ctx.send('抽獎開始! 輸入關鍵字「{}」進行抽獎'.format(keyword))
+    except commands.ExtensionAlreadyLoaded:
+        await ctx.send('抽獎已經開始啦')
 
 
 todayAsked = ['']
