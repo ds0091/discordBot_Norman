@@ -61,7 +61,7 @@ async def get_error_log(ctx, com: str):
 
 @bot.command(name='測試')
 async def test(ctx):
-    await ctx.send('<:__:569210827266064388>')
+    await ctx.send('<:3_:569162222819999744>')
     
 
 @bot.command(name='加入', pass_context=True)
@@ -78,15 +78,15 @@ async def weather(ctx, loc: str):
     else:
         warningStr = ''
         weatherNow = weatherInfo['weather'][0]
-        weatherStr = '「{}」於 {} 開始六小時內\n天氣狀況：{}\n舒適度：{}\n氣溫：{}-{} 度\n降雨機率：{}%\n'.format(loc, weatherNow[0], weatherNow[1], weatherNow[4], weatherNow[3], weatherNow[5], weatherNow[2])
-        uvStr = '\n({})\n當日最高紫外線指數：{} ({})'.format(weatherInfo['uvIndex'][1], weatherInfo['uvIndex'][0][0][1], weatherInfo['uvIndex'][0][0][0])
+        weatherStr = '「{}」於 {} 開始六小時內\n天氣狀況：{}\n舒適度：{}\n氣溫：{}-{} 度\n降雨機率：{}%'.format(loc, weatherNow[0], weatherNow[1], weatherNow[4], weatherNow[3], weatherNow[5], weatherNow[2])
+        uvStr = '\n\n({})\n當日最高紫外線指數：{} ({})'.format(weatherInfo['uvIndex'][1], weatherInfo['uvIndex'][0][0][1], weatherInfo['uvIndex'][0][0][0])
         if (len(weatherInfo['uvIndex'][0]) != 1):
             uvStr = uvStr + '\t{} ({})'.format(weatherInfo['uvIndex'][0][1][1], weatherInfo['uvIndex'][0][1][0])
 
         if (weatherInfo['warning'] != None):
             warningStr = '\n天氣警特報：{}'.format(weatherInfo['warning'])
         
-        await ctx.send(weatherStr + uvStr + warningStr)
+        await ctx.send(weatherStr + warningStr + uvStr)
 
 @bot.command(name='地震', pass_context=True)
 async def earthquake(ctx):
@@ -105,9 +105,10 @@ async def giveaway_start(ctx, permission: str, keyword: str):
     else:
         try:
             bot.load_extension('Features.Giveaway')
-            set_key = bot.get_cog('giveaway')
-            set_key.set_keyword(keyword)
-            set_key.set_permission(permission)
+            set_limit = bot.get_cog('giveaway')
+            set_limit.set_keyword(keyword)
+            set_limit.set_permission(permission)
+            set_limit.set_channel(ctx.message.channel)
             await ctx.send('抽獎開始! 輸入關鍵字「{}」進行抽獎'.format(keyword))
         except commands.ExtensionAlreadyLoaded:
             await ctx.send('抽獎已經開始啦')

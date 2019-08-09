@@ -20,6 +20,10 @@ class giveaway(commands.Cog):
         else:
             self.role = '我有付保護費'
 
+    
+    def set_channel(self,channel):
+        self.in_channel = channel
+
 
     def check_permission(self, roles):
         for role in roles:
@@ -27,17 +31,18 @@ class giveaway(commands.Cog):
                 return True
         return False
 
-
+    
     @commands.Cog.listener()
     async def on_message(self, msg):
-        if (self.is_terminate and self.keyword in msg.content):
-            await msg.channel.send('抽獎報名已經截止囉，下次請早')
-        elif ((msg.author != self.bot.user) and (self.keyword in msg.content) and self.check_permission(msg.author.roles)):
-            if (msg.author.id not in self.drawList):
-                self.drawList.append(msg.author.id)
-                await msg.channel.send('<@!{}> 已加入抽獎名單中'.format(msg.author.id))
-            else:
-                await msg.channel.send('<@!{}> 你已經在名單裡面了'.format(msg.author.id))
+        if(msg.author != self.bot.user):
+            if (self.is_terminate and self.keyword in msg.content):
+                await msg.channel.send('抽獎報名已經截止囉，下次請早')
+            elif ((self.in_channel == msg.channel) and (self.keyword in msg.content) and self.check_permission(msg.author.roles)):
+                if (msg.author.id not in self.drawList):
+                    self.drawList.append(msg.author.id)
+                    await msg.channel.send('<@!{}> 已加入抽獎名單中'.format(msg.author.id))
+                else:
+                    await msg.channel.send('<@!{}> 你已經在名單裡面了'.format(msg.author.id))
 
 
     @commands.has_any_role('諾曼大帝', '有劍94屌')    
