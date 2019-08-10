@@ -74,7 +74,8 @@ class vote(commands.Cog):
             else:
                 selList = list(selections)
                 self.voted_list[user] = selList
-                await ctx.send('<@!{}> 投票成功，你投給了{}'.format(user, ','.join(selList.sort())))
+                selList = selList.sort()
+                await ctx.send('<@!{}> 投票成功，你投給了{}'.format(user, ','.join(selList)))
 
 
     @commands.command(name='投票', pass_context=True)
