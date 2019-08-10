@@ -73,8 +73,8 @@ class vote(commands.Cog):
                     await ctx.send('<@!{}> 投票更改成功，你投給了{}'.format(user, ','.join(selections)))    
             else:
                 selList = list(selections)
+                selList.sort()
                 self.voted_list[user] = selList
-                selList = selList.sort()
                 await ctx.send('<@!{}> 投票成功，你投給了{}'.format(user, ','.join(selList)))
 
 
