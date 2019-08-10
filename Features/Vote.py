@@ -45,7 +45,7 @@ class vote(commands.Cog):
         allVote = sum(self.voted_list.values(), [])
         for option in self.alphabet:
             optCnt = allVote.count(option)
-            voteStr = voteStr + '{}: {}票\n'.format(option, optCnt)
+            voteStr = voteStr + '{}：{} 票\n'.format(option, optCnt)
             if (maxVoted < optCnt):
                 maxVoted = optCnt
                 voteMax = [option]
@@ -53,7 +53,7 @@ class vote(commands.Cog):
                 voteMax.append(option)
         maxVotedStr = ','.join(voteMax)
         
-        resultStr = '得票數最高的選項為：{}，得票數為：{}'.format(maxVotedStr, maxVoted)
+        resultStr = '得票數最高的選項為：{}，得票數為 {} 票'.format(maxVotedStr, maxVoted)
         return [voteStr, resultStr]
     
 
@@ -65,8 +65,8 @@ class vote(commands.Cog):
         else:
             user = ctx.message.author.id
             if (user in self.voted_list.keys()):
-                if (revote != 'r'):
-                    await ctx.send('<@!{}> 你已經投過票囉，想改變主意的話就用【!投 <選項> r】'.format(user))
+                if (revote != '-r'):
+                    await ctx.send('<@!{}> 你已經投過票囉，想改變主意的話就用【!投 <選項> -r】'.format(user))
                 else:
                     self.voted_list[user] = list(selections)
                     await ctx.send('<@!{}> 投票更改成功，你投給了{}'.format(user, ','.join(selections)))    
