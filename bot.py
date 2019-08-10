@@ -3,6 +3,7 @@ from discord.ext import commands
 import pytz
 import datetime
 import random
+import string
 
 import Features.Weather
 import Features.Giveaway
@@ -56,6 +57,7 @@ async def get_error_log(ctx, com: str):
             await ctx.send('Log is empty.')
     elif(com == 'reset'):
         error_log = []
+        await ctx.send('Done.')
 
 
 
@@ -117,7 +119,7 @@ async def giveaway_start(ctx, permission: str, keyword: str):
         
 
 @commands.has_any_role('諾曼大帝', '有劍94屌')
-@bot.command(name='抽獎結束', pass_context=True)
+@bot.command(name='抽獎結束', aliases=['結束抽獎'], pass_context=True)
 async def giveaway_end(ctx):
     try:
         bot.unload_extension('Features.Giveaway')
@@ -128,12 +130,38 @@ async def giveaway_end(ctx):
 
 @commands.has_any_role('諾曼大帝', '有劍94屌')
 @bot.command(name='vote', pass_context=True)
-async def vote_start(ctx, permission: str, keyword: str):
-    try:
-        bot.load_extension('Features.Vote')
-        await ctx.send('抽獎開始! 輸入關鍵字「{}」進行抽獎'.format(keyword))
-    except commands.ExtensionAlreadyLoaded:
-        await ctx.send('投票已經開始啦')
+async def vote_start(ctx, command: str, numSelection=-1, numOption=-1):
+    if(command == 'set'):
+        if (numOption < 2):
+            await ctx.send('至少要有兩個選項才能投票啊')
+        elif (numSelection > numOption):
+            await ctx.send('設定錯了吧，哪有那麼多選項可以投？')
+        elif (numOption <= 26 and 0 <= numSelection):
+            try:
+                bot.load_extension('Features.Vote')
+                voteLib = bot.get_cog('vote')
+                if (numSelection == 0):
+                    numSelection = numOption
+                    voteLib.set_vote([numSelection, numOption])
+                    await ctx.send(voteLib.show_description('unlimited'))
+                else:
+                    voteLib.set_vote([numSelection, numOption])
+                    await ctx.send(voteLib.show_description('limited'))
+            except commands.ExtensionAlreadyLoaded:
+                await ctx.send('投票早就已經開始啦')
+        else:
+            await ctx.send('再去看一次使用說明好嗎？')
+    elif (command == 'end'):
+        try:
+            voteLib = bot.get_cog('vote')
+            result = voteLib.voteCount()# 開票
+            bot.unload_extension('Features.Vote')
+            await ctx.send('投票結束，{}\n\n【得票情形】\n{}'.format(result[1], result[0]))
+        except commands.ExtensionNotLoaded:
+            await ctx.send('目前沒有進行中的投票')
+    else:
+        await ctx.send('你真的需要去看一下操作說明')
+    
 
 
 todayAsked = ['']
@@ -148,17 +176,21 @@ async def luck_today(ctx):
     if(whoAsk not in todayAsked):
         todayAsked.append(whoAsk)
         luck = random.randint(0, 9)
-        if (luck >= 8):
-            luckStr = '大吉'
-        elif (luck >= 6):
-            luckStr = '吉'
+        if (luck >= 9):
+            luckStr = '幸運的一天'
+        elif (luck >= 7):
+            luckStr = '還不錯呦'
+        elif (luck >= 5):
+            luckStr = '還可以啦'
         elif (luck >= 3):
-            luckStr = '普通'
-        else:
+            luckStr = '普普通通'
+        elif (luck >= 1):
             luckStr = '不好說'
+        else:
+            luckStr = '...確定你想知道？'
         await ctx.send('本日運勢：{}'.format(luckStr))
     else:
-        await ctx.send('你今天已經問過囉，接受命運吧')
+        await ctx.send('你今天已經問過囉，接受命運吧(´∀`)')
 
 
 
