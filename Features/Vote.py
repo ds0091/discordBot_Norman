@@ -31,9 +31,10 @@ class vote(commands.Cog):
             if (sel not in self.alphabet):
                 return '是不是混進了不在選項內的東西？\n使用【!投票】指令再看一次投票說明吧'
         numSel = len(selections)
-
+        if (numSel != len(list(set(selections)))):
+            return '就算是複選一個選項也只能選一次啦'
         if (numSel > self.numSelection):
-            return '別太貪心，最多只能選擇 {}項'.format(self.numSelection)
+            return '別太貪心，最多只能選擇 {} 項'.format(self.numSelection)
         else:
             return 'ok'
 
