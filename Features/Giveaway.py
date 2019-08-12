@@ -60,7 +60,7 @@ class giveaway(commands.Cog):
             if (peopleRemain != 0):
                 winner = self.drawList.pop(choice(range(peopleRemain)))
                 self.giveawayCnt+=1
-                await ctx.send('恭喜歐洲人{}號：<@!{}> 中獎啦'.format(self.giveawayCnt, winner))
+                await ctx.send('恭喜歐洲人{} 號：<@!{}> 中獎啦'.format(self.giveawayCnt, winner))
             else:
                 await ctx.send('已經沒有人可以抽了')
         else:

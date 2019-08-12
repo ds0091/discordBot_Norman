@@ -38,6 +38,8 @@ async def on_command_error(ctx, error):
     global error_log
     if isinstance(error, (commands.MissingRole, commands.MissingAnyRole, commands.NotOwner)):
         await ctx.send('你沒有權限使用這個指令喔 ^^')
+    elif isinstance(error, (commands.CommandNotFound, commands.CommandOnCooldown)):
+        pass
     else:
         timeStamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         error_log.append(str(timeStamp) + ' | ' + str(error))
@@ -60,12 +62,21 @@ async def get_error_log(ctx, com: str):
         await ctx.send('Done.')
 
 
+@bot.command(name='喊在', pass_context=True)
+async def is_online(ctx):
+    await ctx.send('在')
+
+
+@bot.command(name='諾曼', pass_context=True)
+async def norman(ctx):
+    fig_filename = 'Fig/Norman_' + str(random.randint(0, 5)) + '.JPG'
+    fig = discord.File(fig_filename, filename=fig_filename)
+    await ctx.send(file=fig)
+
 
 @bot.command(name='測試', pass_context=True)
 async def test(ctx):
-    fig = discord.File('Fig/Norman_1.JPG', filename='Norman_1.JPG')
-    await ctx.send(file=fig)
-    # await ctx.send('<:3_:569162222819999744>')
+    await ctx.send('<:3_:569162222819999744>')
     
 
 @bot.command(name='加入', pass_context=True)
@@ -176,19 +187,28 @@ async def luck_today(ctx):
     if(whoAsk not in todayAsked):
         todayAsked.append(whoAsk)
         luck = random.randint(0, 9)
+        
         if (luck >= 9):
             luckStr = '幸運的一天'
+            normanFig = 'Luck'
         elif (luck >= 7):
             luckStr = '還不錯呦'
+            normanFig = 'Heart'
         elif (luck >= 5):
             luckStr = '還可以啦'
+            normanFig = 'BloodTrail'
         elif (luck >= 3):
             luckStr = '普普通通'
+            normanFig = 'OK'
         elif (luck >= 1):
             luckStr = '不好說'
+            normanFig = 'Eat'
         else:
             luckStr = '...確定你想知道？'
-        await ctx.send('本日運勢：{}'.format(luckStr))
+            normanFig = 'Scare'
+        fig_filename = 'Fig/Norman_' + normanFig + '.png'
+        fig = discord.File(fig_filename, filename=fig_filename)
+        await ctx.send(content='本日運勢：{}'.format(luckStr), file=fig)
     else:
         await ctx.send('你今天已經問過囉，接受命運吧(´∀`)')
 
