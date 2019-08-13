@@ -97,10 +97,8 @@ async def weather(ctx, loc: str):
         uvStr = '\n\n({})\n當日最高紫外線指數：{} ({})'.format(weatherInfo['uvIndex'][1], weatherInfo['uvIndex'][0][0][1], weatherInfo['uvIndex'][0][0][0])
         if (len(weatherInfo['uvIndex'][0]) != 1):
             uvStr = uvStr + '\t{} ({})'.format(weatherInfo['uvIndex'][0][1][1], weatherInfo['uvIndex'][0][1][0])
-
         if (weatherInfo['warning'] != None):
             warningStr = '\n天氣警特報：{}'.format(weatherInfo['warning'])
-        
         await ctx.send(weatherStr + warningStr + uvStr)
 
 @bot.command(name='地震', pass_context=True)
@@ -172,7 +170,6 @@ async def vote_start(ctx, command: str, numSelection=-1, numOption=-1):
             await ctx.send('目前沒有進行中的投票')
     else:
         await ctx.send('你真的需要去看一下操作說明')
-    
 
 
 todayAsked = ['']
@@ -192,10 +189,10 @@ async def luck_today(ctx):
             luckStr = '幸運的一天'
             normanFig = 'Luck'
         elif (luck >= 7):
-            luckStr = '還不錯呦'
+            luckStr = '不錯呦 開勳'
             normanFig = 'Heart'
         elif (luck >= 5):
-            luckStr = '還可以啦'
+            luckStr = '讚啦'
             normanFig = 'BloodTrail'
         elif (luck >= 3):
             luckStr = '普普通通'
@@ -211,7 +208,6 @@ async def luck_today(ctx):
         await ctx.send(content='本日運勢：{}'.format(luckStr), file=fig)
     else:
         await ctx.send('你今天已經問過囉，接受命運吧(´∀`)')
-
 
 
 
