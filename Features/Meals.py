@@ -30,7 +30,7 @@ class meals(commands.Cog):
         await ctx.send('晚餐推薦：{}'.format(recommend))
 
 
-    @commands.command(name='宵夜', pass_context=True)
+    @commands.command(name='宵夜', aliases=['消夜'], pass_context=True)
     async def snack_recommend(self, ctx):
         recommend = choice(self.snack_list)
         await ctx.send('宵夜推薦：{}'.format(recommend))
