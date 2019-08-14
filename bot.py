@@ -211,8 +211,4 @@ async def luck_today(ctx):
 
 
 
-if __name__ == "__main__":
-    token_test = 'NjA5MTEwNDY3MTcxODQ0MTU5.XU2oqA.VwCIqPRqpUQLxCnInxlYezowTeM'
-    token_main = 'NTkxNTYzMzA0MDQ5MzExNzc0.XUyCRQ.wU9WwiUaiQuW648G6ASTLnjr08w'
-    bot.load_extension('Features.Meals')
-    bot.run(token_main)
+
